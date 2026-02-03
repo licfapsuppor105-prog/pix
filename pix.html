@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pix</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 20px 0 5px;
+    }
+
+    p {
+      margin-bottom: 15px;
+      opacity: 0.8;
+    }
+
+    #palette {
+      margin-bottom: 15px;
+    }
+
+    .color {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      margin: 4px;
+      cursor: pointer;
+      border: 2px solid #333;
+    }
+
+    .color.active {
+      border: 2px solid #fff;
+    }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(16, 20px);
+      grid-template-rows: repeat(16, 20px);
+      gap: 2px;
+    }
+
+    .pixel {
+      width: 20px;
+      height: 20px;
+      background: #222;
+      cursor: pointer;
+    }
+
+    button {
+      margin: 15px;
+      padding: 8px 14px;
+      background: #444;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pix</h1>
+  <p>Crée ton pixel art ✨</p>
+
+  <div id="palette"></div>
+
+  <div id="grid"></div>
+
+  <button onclick="clearGrid()">Effacer</button>
+
+  <script>
+    const colors = [
+      "#ffffff", "#ff4757", "#ffa502",
+      "#2ed573", "#1e90ff", "#5352ed",
+      "#000000"
+    ];
+
+    const palette = document.getElementById("palette");
+    const grid = document.getElementById("grid");
+    let currentColor = colors[0];
+
+    // Palette
+    colors.forEach(color => {
+      const c = document.createElement("div");
+      c.className = "color";
+      c.style.background = color;
+      c.onclick = () => {
+        document.querySelectorAll(".color").forEach(el => el.classList.remove("active"));
+        c.classList.add("active");
+        currentColor = color;
+      };
+      palette.appendChild(c);
+    });
+    palette.firstChild.classList.add("active");
+
+    // Grille de pixels
+    for (let i = 0; i < 256; i++) {
+      const pixel = document.createElement("div");
+      pixel.className = "pixel";
+      pixel.onclick = () => {
+        pixel.style.background = currentColor;
+      };
+      grid.appendChild(pixel);
+    }
+
+    function clearGrid() {
+      document.querySelectorAll(".pixel").forEach(p => {
+        p.style.background = "#222";
+      });
+    }
+  </script>
+
+</body>
+</html>
